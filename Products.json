@@ -1,0 +1,92 @@
+[
+    {
+        "id": 1,
+        "title": "MOSCHINO",
+        "description": "PINK FRESH COUTURE EDT",
+        "price": 230,
+        "thumbnail": " https://juleriaque.vtexassets.com/arquivos/ids/202409-1600-auto?v=638085746010570000&width=1600&height=auto&aspect=true",
+        "code": "DGS10",
+        "stock": 10
+    },
+    {
+        "id": 2,
+        "title": "CACHAREL",
+        "description": "AMOR AMOR EDT",
+        "price": 320,
+        "thumbnail": "https: //juleriaque.vtexassets.com/arquivos/ids/201792-800-auto?v=638085741558800000&width=800&height=auto&aspect=true",
+        "code": "ABGSD15",
+        "stock": 32
+    },
+    {
+        "id": 3,
+        "title": "VERSACE",
+        "description": "BLUE JEANS EDT",
+        "price": 43,
+        "thumbnail": " https://juleriaque.vtexassets.com/arquivos/ids/202364-1600-auto?v=638085745689770000&width=1600&height=auto&aspect=true",
+        "code": "AB2155",
+        "stock": 7
+    },
+    {
+        "id": 4,
+        "title": "LANCOME",
+        "description": " LA VIE EST BELLE EDP",
+        "price": 32,
+        "thumbnail": "https://juleriaque.vtexassets.com/arquivos/ids/201480-800-auto?v=638085414570530000&width=800&height=auto&aspect=true",
+        "code": "AB2157",
+        "stock": 10
+    },
+    {
+        "id": 5,
+        "title": "YVES SAINT LAURENT",
+        "description": "MON PARIS EDP",
+        "price": 36,
+        "thumbnail": "https://juleriaque.vtexassets.com/arquivos/ids/212873-800-auto?v=638186291584000000&width=800&height=auto&aspect=true",
+        "code": "AB2158",
+        "stock": 32
+    },
+    {
+        "id": 6,
+        "title": "DIESEL",
+        "description": "FUEL FOR LIFE EDT",
+        "price": 236,
+        "thumbnail": "https://juleriaque.vtexassets.com/arquivos/ids/202931-800-auto?v=638085749830200000&width=800&height=auto&aspect=true",
+        "code": "HJNE27",
+        "stock": 60
+    },
+    {
+        "id": 7,
+        "title": "JEAN PAUL GAULTIER",
+        "description": "SCANDAL POUR HOMME EDT",
+        "price": 25,
+        "thumbnail": "https://juleriaque.vtexassets.com/arquivos/ids/212873-800-auto?v=638186291584000000&width=800&height=auto&aspect=true",
+        "code": "AB23535",
+        "stock": 8
+    },
+    {
+        "id": 8,
+        "title": "DIOR",
+        "description":"DIOR HOMME NEW EDT",
+        "price": 70,
+        "thumbnail": "https://juleriaque.vtexassets.com/arquivos/ids/202303-800-auto?v=638085745242030000&width=800&height=auto&aspect=true",
+        "code": "AB2163",
+        "stock": 15
+    },
+    {
+        "id": 9,
+        "title": "BURBERRY",
+        "description": "WEEKEND MEN EDT",
+        "price": 211,
+        "thumbnail": "https://juleriaque.vtexassets.com/arquivos/ids/213083-800-auto?v=638191571134400000&width=800&height=auto&aspect=true",
+        "code": "AB2158",
+        "stock": 62
+    },
+    {
+        "id": 10,
+        "title": "JEAN PAUL GAULTIER",
+        "description": "SCANDAL POUR HOMME EDT",
+        "price": 32,
+        "thumbnail": " https://juleriaque.vtexassets.com/arquivos/ids/202884-800-auto?v=638085749479730000&width=800&height=auto&aspect=true",
+        "code": "AB2160",
+        "stock": 12
+    }
+]
