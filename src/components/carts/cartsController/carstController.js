@@ -28,7 +28,7 @@ class CartsController {
     try {
       let newProduct = req.body;
       const newCart = {
-        id: ++CartController.id,
+        id: ++CartsController.id,
         products: newProduct
       }
 
@@ -77,7 +77,7 @@ class CartsController {
       fs.writeFileSync(this.path, JSON.stringify(this.carts, null, 2), 'utf-8');
       res.send(selectedCart);
     } catch (error) {
-      res.status(500).send('Error al actualizar el carrito.');
+      res.status(500).send('Error al actualizar el carrito');
     }
   }
 }
