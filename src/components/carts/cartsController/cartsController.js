@@ -16,7 +16,7 @@ class CartsController {
     ), 0)
   }
 
-  getAllCarts(req, res) {
+ getAllCarts(req, res) {
     try {
       res.send(this.carts);
     } catch (error) {
@@ -38,8 +38,8 @@ class CartsController {
     } catch (error) {
       res.status(500).send('Error no se puede crear el carrito');
     }
-  }
-
+  } 
+  
   getCartById(req, res) {
     try {
       let cid = parseInt(req.params.cid);

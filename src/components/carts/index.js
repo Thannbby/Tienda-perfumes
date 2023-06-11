@@ -1,6 +1,7 @@
-const Cart = require('./cartsController/CartsController');
+const Cart = require('./cartsController/cartsController');
 const { Router } = require('express');
 const bodyParser = require("body-parser");
+
 
 const cartController = new Cart('./carts.json')
 
@@ -11,7 +12,7 @@ module.exports = (app) => {
 
   app.use('/api/carts', router);
   router.get('/', cartController.getAllCarts.bind(cartController));
-  router.post('/', cartController.createNewCart.bind(cartController));
+  router.post('/', cartController.createCart.bind(cartController));
   router.get('/:cid', cartController.getCartById.bind(cartController));
   router.post('/:cid/product/:pid', cartController.updateCartWithProduct.bind(cartController));
 }
