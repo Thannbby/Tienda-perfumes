@@ -3,8 +3,10 @@ const routes = require('./routes');
 const http = require ('http');
 const PORT = 8080;
 const bodyParser = require("body-parser");
-const exphbs = require ('express-handlebars')
-const socketIo = require ('socket.io')
+const exphbs = require ('express-handlebars');
+const socketIo = require ('socket.io');
+
+const Products = require('../products.json')
 
 class Server {
   constructor() {
@@ -22,14 +24,15 @@ class Server {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(express.static('public'));
+    this.app.use('/socket.io', express.static('node_modules/socket.io/client-dist')); 
+
     this.app.engine('handlebars', exphbs.engine());
     this.app.set('view engine', 'handlebars');
     
     this.app.get('/realtimeproducts', async (req, res) => {
       try {
-          const pm = require('./components/products/productsController/productsController.js')
-          const products = await pm.getProducts();
-          res.render('realTimeProducts', { products });
+        const products = await Products.getProducts();
+        res.render('realTimeProducts', { products });
       } catch (error) {
           console.log(`[ERROR] -> ${error}`);
           res.status(500).json({ error: 'Error al obtener los productos' });
@@ -40,11 +43,10 @@ class Server {
   initializeSocket() {
     this.io = socketIo(this.server);
 
-    const pm = require('./components/products/productsController/productsController.js');
     this.io.on('connection', (socket) => {
         console.log('Client connected'); 
 
-        pm.getProducts()
+        Products.getProducts()
             .then((products) => {
                 socket.emit('initial products', products);
                 socket.on('new product', (newProduct) => {

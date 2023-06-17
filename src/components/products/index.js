@@ -1,8 +1,8 @@
-const Product = require('./productsController/productsController');
+const Product = require('./productsService/productsService');
 const { Router } = require('express');
 const bodyParser = require("body-parser");
 
-const productController = new Product('./products.json')
+const productService = new Product('./products.json')
 
 module.exports = (app) => {
   let router = new Router();
@@ -10,9 +10,9 @@ module.exports = (app) => {
   app.use(bodyParser.urlencoded({ extended: true }));
 
   app.use('/api/products', router);
-  router.get('/', productController.getProducts.bind(productController));
-  router.get('/:pid', productController.getProductsById.bind(productController));
-  router.post('/', productController.addProduct.bind(productController));
-  router.put('/:pid', productController.upDateProductId.bind(productController));
-  router.delete('/:pid', productController.deleteProduct.bind(productController));
+  router.get('/', productService.getProducts.bind(productService));
+  router.get('/:pid', productService.getProductsById.bind(productService));
+  router.post('/', productService.addProduct.bind(productService));
+  router.put('/:pid', productService.upDateProductId.bind(productService));
+  router.delete('/:pid', productService.deletProduct.bind(productService));
 }

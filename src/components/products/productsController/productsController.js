@@ -1,96 +1,96 @@
-const fs = require('fs');
+const productService = require('../productsService/productsService');
 
-class Product {
-  static id = 0;
+class ProductsController {
+    async getProducts (req, res){
+        try{
+            const limitedProducts = req.query.limit;
+            const products = await productService.getProducts();
 
-  constructor(path) {
-    this.path = path;
-    this.props = ['title', 'description', 'price', 'thumbnail', 'code', 'stock'];
-    try {
-      this.products = JSON.parse(fs.readFileSync(path, 'utf-8'));
-    } catch (error) {
-      console.log('Error reading file:', error);
-      this.products = [];
-    }
-    Product.id = this.products.reduce((prev, curr) => (
-      curr.id >= prev ? curr.id : prev
-    ), 0);
-  }
+            let response = products;
 
-  getProducts(req, res) {
-    try {
-      let { limit } = req.query;
-      if (limit) {
-        let productsWithLimit = this.products.slice(0, limit);
-        res.send(productsWithLimit);
-      }
-      res.send(this.products);
-    } catch (error) {
-      res.status(500).send('Server Error');
-    }
-  }
-
-  getProductsById(req, res) {
-    try {
-      let paramId = req.params.pid;
-      let productFound = this.products.find(product => product.id == paramId);
-      const response = productFound ? productFound : { error: `No se encontró ningún producto con el id ${paramId}` };
-      res.send(response);
-    } catch (error) {
-      res.status(500).send('Server Error');
-    }
-  }
-
-  isValidateCode(product) {
-    return this.products.some(item => item.code === product.code);
-  }
-
-  addProduct(req, res) {
-    try {
-      let newProduct = req.body;
-      console.log(newProduct);
-      for (let prop of this.props) {
-        if (!newProduct.hasOwnProperty(prop) || this.isValidateCode(newProduct)) {
-          res.status(400).send('Producto Invalido');
+            if (limitedProducts){
+                const parsedLimit = parseInt(limit, 10)
+                if(!isNaN(parsedLimit)){
+                    response = products.slice(0, parsedLimit)
+                }
+            }
+            res.json(response)
+        } catch (error){
+            res.status(500).json({error: 'Error getting the products'})
         }
-      }
-
-      this.products = [...this.products, { id: ++Product.id, ...newProduct }];
-      fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2));
-      return res.send(this.products);
-    } catch (error) {
-      res.status(500).send('Server Error');
     }
-  }
 
-  upDateProductId(req, res) {
-    try {
-      let param = parseInt(req.params.pid);
-      let updatedFields = req.body;
+    async getProductById(req, res){
+        try{
+            const productId = parseInt(req.params.pid)
+            const product = await productService.getProductsById(productId);
 
-      const updateProductIndex = this.products.findIndex(product => product.id === param);
-      if (updateProductIndex !== -1) {
-        Object.assign(this.products[updateProductIndex], updatedFields);
-        fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2));
-        res.send(this.products);
-      } else {
-        res.status(404).send('Product not found');
-      }
-    } catch (error) {
-      res.status(500).send('Internal Server Error');
+            if(product){
+                res.json(product);
+            }else {
+                res.status(404).json({error: 'Product not found'})
+            }
+        }catch (error){
+            res.status(500).json({error: 'Error getting the product'})
+        }
     }
-  }
-  
-  deleteProduct(req, res) {
-    try {
-      const id = parseInt(req.params.pid);
-      const filterProducts = this.products.filter(product => product.id !== id);
-      fs.writeFileSync(this.path, JSON.stringify(filterProducts, null, 2));
-      res.send(filterProducts);
-    } catch (error) {
-      res.status(500).send('Internal Server Error');
+    async addProduct (req, res){
+        try{
+            const productData = req.body;
+
+            const newProdcut = await productService.addProduct(productData);
+            if (newProdcut === 'Invalid product!'){
+                res.status(400).json(newProdcut)
+            }else{
+                res.status(201).json(newProdcut)
+            }
+        } catch (error){
+            res.status(500).json({error: 'Error adding product'})
+        }
     }
-  }
+
+    async updateProduct(req, res){
+        try{
+            const productId = parseInt(req.params.pid);
+            const updateFields = req.body;
+
+            if(Object.keys(updateFields).length === 0){
+                return res.status(400).json({error: 'At least one field must be submitted to update'})
+            }
+
+            const existinProduct = await productService.getProductsById(productId)
+            if(!existinProduct){
+                return res.status(404).json({error: 'Product not found'})
+            }
+
+            for (const field in updateFields){
+                if (updateFields.hasOwnProperty(field)){
+                    await productService.updateFields(productId, field, updateFields[field]);
+                }
+            }
+
+            const updateProduct = await productService.getProductsById(productId);
+            res.json(updateProduct)
+        }catch(error){
+            res.status(500).json({error: 'Error updating the product'})
+        }
+    }
+
+    async deletProducts(rqp, res){
+        try{
+            const productId =parseInt(req.params.pid);
+
+            const existingProduct = await productService.getProductsById(productId);
+            if (!existingProduct){
+                return res.status(404).json({error: 'Product not found'})
+            }
+
+            await productService.deletProduct(productId);
+            res.status(204).end();
+        }catch (error){
+            res.status(500).json({error:'Error deleting the product'})
+        }
+    }
 }
 
-module.exports = Product;
+module.exports = new ProductsController();
