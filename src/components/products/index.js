@@ -14,5 +14,5 @@ module.exports = (app) => {
   router.get('/:pid', productService.getProductsById.bind(productService));
   router.post('/', productService.addProduct.bind(productService));
   router.put('/:pid', productService.upDateProductId.bind(productService));
-  router.delete('/:pid', productService.deletProduct.bind(productService));
+  router.delete('/:pid', productService.deleteProducts.bind(productService));
 }

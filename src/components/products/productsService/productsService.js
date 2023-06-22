@@ -73,7 +73,7 @@ async upDateProductId(id, field, newValue) {
   }
 }
   
-async deletProduct(id){
+async deleteProducts(id){
   try{
     this.products = this.products.filter(product.id != id);
     await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2));

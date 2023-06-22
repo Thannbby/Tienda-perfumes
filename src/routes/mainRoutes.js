@@ -1,6 +1,6 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
-const Products = require('../../productos.json')
+const Products = require('../../products.json')
 
 console.log(Products);
 

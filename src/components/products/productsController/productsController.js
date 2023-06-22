@@ -76,7 +76,7 @@ class ProductsController {
         }
     }
 
-    async deletProducts(rqp, res){
+    async deleteProducts(rqp, res){
         try{
             const productId =parseInt(req.params.pid);
 
@@ -85,7 +85,7 @@ class ProductsController {
                 return res.status(404).json({error: 'Product not found'})
             }
 
-            await productService.deletProduct(productId);
+            await productService.deleteProducts(productId);
             res.status(204).end();
         }catch (error){
             res.status(500).json({error:'Error deleting the product'})

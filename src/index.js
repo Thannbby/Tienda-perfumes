@@ -6,7 +6,6 @@ const bodyParser = require("body-parser");
 const exphbs = require ('express-handlebars');
 const socketIo = require ('socket.io');
 
-const Products = require('../products.json')
 
 class Server {
   constructor() {
@@ -31,40 +30,36 @@ class Server {
     
     this.app.get('/realtimeproducts', async (req, res) => {
       try {
-        const products = await Products.getProducts();
+        const productService = require('./components/products/productsService/productsService')
+        const products = await productService.getProducts();
         res.render('realTimeProducts', { products });
       } catch (error) {
           console.log(`[ERROR] -> ${error}`);
-          res.status(500).json({ error: 'Error al obtener los productos' });
+          res.status(500).json({ error: 'Error getting all products' });
       }
   });
 }
 
-  initializeSocket() {
-    this.io = socketIo(this.server);
+initializeSocket(){
+  this.io = socketIo(this.server);
+  const productService = require('./components/products/productsService/productsService')
 
-    this.io.on('connection', (socket) => {
-        console.log('Client connected'); 
-
-        Products.getProducts()
-            .then((products) => {
-                socket.emit('initial products', products);
-                socket.on('new product', (newProduct) => {
-                    console.log('New product received:', newProduct);
-                    this.io.emit('new product', newProduct);
-                });
-        
-                socket.on('delete product', (productId) => {
-                    console.log('New product removed:', productId);
-                    this.io.emit('delete product', productId);
-                });
-            })
-            .catch((error) => {
-                console.log(`[ERROR] -> ${error}`);
-            });
+  this.io.on('connection', (socket)=>{
+    console.log('Client connected');
+    productService.getProducts().then((products)=>{
+      socket.emit('initial products', products);
+      socket.on('new product', (newProduct) =>{
+        this.io.emit('new product', newProduct);
+      });
+      socket.on('delet product', (productId)=>{
+        this.io.emit('delet product', productId);
+      });
+    })
+    .catch((error)=>{
+      console.log(`[ERROR] ->${error}`);
     });
-
-  }
+  });
+}
 
   routes() {
     routes(this.app);
